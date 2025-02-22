@@ -1,0 +1,52 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  edge_functions = "netlify/edge-functions"
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[dev]
+  framework = "astro"
+  targetPort = 4321
+
+[template]
+  path = "/"
+[template.environment]
+  NODE_VERSION = "18"
+
+[context.production]
+  command = "npm run build"
+  publish = "dist"
+
+[context.deploy-preview]
+  command = "npm run build"
+  publish = "dist"
+
+[context.branch-deploy]
+  command = "npm run build"
+  publish = "dist"
+
+[build.processing]
+  skip_processing = false
+[build.processing.html]
+  pretty_urls = true
+[build.processing.css]
+  bundle = true
+  minify = true
+[build.processing.js]
+  bundle = true
+  minify = true
+[build.processing.images]
+  compress = true
+
+[functions]
+  node_bundler = "esbuild"
+
+# Required for Astro hybrid rendering
+[[edge_functions]]
+  function = "entry"
+  path = "/*"
